@@ -20,7 +20,7 @@ public class HomeController {
 
         infoDto.setPaths(
                 List.of(
-                        new PathDto("/menu","Перейти в меню. Получить список товаров."),
+                        new PathDto("/menu/","Перейти в меню. Получить список товаров."),
                         new PathDto("/bascket","Перейти в корзину. Посмотреть список выбранных товаров.")
                 )
         );
