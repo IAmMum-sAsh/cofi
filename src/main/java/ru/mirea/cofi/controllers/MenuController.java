@@ -45,7 +45,7 @@ public class MenuController {
 
         infoDto.setPaths(
                 List.of(
-                        new PathDto("/menu/items","Посмотреть список всех товаров."),
+                        new PathDto("/menu/","Посмотреть список всех товаров."),
                         new PathDto("/menu/item?id=2121","Посмотреть полную информацию о конкретном товаре с id=2121.")
                 )
         );
