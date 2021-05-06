@@ -4,15 +4,13 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mirea.cofi.dto.InfoDto;
 import ru.mirea.cofi.dto.MenuItemDto;
 import ru.mirea.cofi.dto.PathDto;
 import ru.mirea.cofi.entitys.Item;
 import ru.mirea.cofi.exceptions.ItemNotFoundException;
+import ru.mirea.cofi.payload.ItemDtoPayload;
 import ru.mirea.cofi.repositories.ItemRepository;
 
 import java.util.List;
@@ -61,6 +59,17 @@ public class MenuController {
         Item item = itemRepository.findById(id).orElseThrow(
                 () -> {throw new ItemNotFoundException("Товар не найден");}
         );
+        return ResponseEntity.ok(item);
+    }
+
+    @RequestMapping(
+            value = "/add_item",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<Item> addItem(@RequestBody ItemDtoPayload itemDtoPayload){
+        Item item = new Item(itemDtoPayload.getTitle(), itemDtoPayload.getCost(), itemDtoPayload.getDescription());
+        itemRepository.save(item);
+
         return ResponseEntity.ok(item);
     }
 }
