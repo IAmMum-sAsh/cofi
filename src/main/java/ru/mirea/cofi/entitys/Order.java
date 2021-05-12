@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "baskets")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Basket extends BaseEntity{
-    @OneToOne
-    protected User user;
+public class Order extends BaseEntity{
+
     @ManyToMany
     protected List<Item> items;
 }

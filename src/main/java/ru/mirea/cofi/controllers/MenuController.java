@@ -1,20 +1,17 @@
 package ru.mirea.cofi.controllers;
 
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.cofi.dto.InfoDto;
 import ru.mirea.cofi.dto.MenuItemDto;
 import ru.mirea.cofi.dto.PathDto;
 import ru.mirea.cofi.entitys.Item;
-import ru.mirea.cofi.exceptions.ItemNotFoundException;
+import ru.mirea.cofi.exceptions.MyNotFoundException;
 import ru.mirea.cofi.payload.ItemDtoPayload;
 import ru.mirea.cofi.repositories.ItemRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/menu")
@@ -57,7 +54,7 @@ public class MenuController {
     )
     public ResponseEntity<Item> getItem(@RequestParam long id){
         Item item = itemRepository.findById(id).orElseThrow(
-                () -> {throw new ItemNotFoundException("Товар не найден");}
+                () -> {throw new MyNotFoundException("Товар не найден");}
         );
         return ResponseEntity.ok(item);
     }
