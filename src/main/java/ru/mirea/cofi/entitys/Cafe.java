@@ -4,18 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "cafe")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order extends BaseEntity{
-    @ManyToOne
-    protected User user;
-    @ManyToMany
-    protected List<Item> items;
+public class Cafe extends BaseEntity{
     protected String adress;
 }

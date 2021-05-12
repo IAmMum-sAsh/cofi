@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mirea.cofi.dto.BasketDto;
 import ru.mirea.cofi.dto.ItemDto;
-import ru.mirea.cofi.entitys.Basket;
-import ru.mirea.cofi.entitys.Item;
-import ru.mirea.cofi.entitys.User;
+import ru.mirea.cofi.dto.OrderDto;
+import ru.mirea.cofi.entitys.*;
 import ru.mirea.cofi.exceptions.MyNotFoundException;
 import ru.mirea.cofi.repositories.BasketRepository;
+import ru.mirea.cofi.repositories.CafeRepository;
+import ru.mirea.cofi.repositories.ItemRepository;
+import ru.mirea.cofi.repositories.OrderRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,15 @@ import java.util.List;
 public class BasketService {
     @Autowired
     BasketRepository basketRepository;
+
+    @Autowired
+    CafeRepository cafeRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     public BasketDto getBasketByUser(User user){
         Basket usersBasket = basketRepository.findByUser(user).orElseThrow(
@@ -75,5 +86,43 @@ public class BasketService {
         }
 
         return new BasketDto(items);
+    }
+
+    public OrderDto order(User user, long id){
+        Basket basket = basketRepository.findByUser(user).orElseThrow(
+                () -> new MyNotFoundException("Basket not found")
+        );
+
+        Order order = new Order();
+        order.setUser(user);
+
+        //order.setItems(basket.getItems());
+        order.setItems(new ArrayList<Item>());
+        for (Item itemToOrder: basket.getItems()) {
+            order.getItems().add(
+                    itemRepository.findById(itemToOrder.getId()).orElseThrow(
+                            () -> new MyNotFoundException("")
+                    )
+            );
+        }
+
+        ArrayList<ItemDto> items = new ArrayList<>();
+        for(Item item : order.getItems()){
+            items.add(new ItemDto(item.getId(), item.getTitle(), item.getCost()));
+        }
+
+        order.setAdress(cafeRepository.findById(id).orElseThrow(
+                () -> new MyNotFoundException("Cafe not found")
+                ).getAdress()
+        );
+
+        //System.out.println(order);
+        if( orderRepository.save(order) != null){
+            basket.setItems(new ArrayList<>());
+            basketRepository.save(basket);
+            return new OrderDto(order.getUser().getEmail(), items, order.getAdress());
+        }
+
+        return null;
     }
 }

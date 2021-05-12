@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mirea.cofi.dto.BasketDto;
-import ru.mirea.cofi.dto.InfoDto;
-import ru.mirea.cofi.dto.ItemDto;
-import ru.mirea.cofi.dto.PathDto;
+import ru.mirea.cofi.dto.*;
 import ru.mirea.cofi.entitys.Basket;
+import ru.mirea.cofi.entitys.Cafe;
 import ru.mirea.cofi.entitys.Item;
 import ru.mirea.cofi.entitys.User;
 import ru.mirea.cofi.exceptions.MyNotFoundException;
+import ru.mirea.cofi.repositories.CafeRepository;
 import ru.mirea.cofi.repositories.ItemRepository;
 import ru.mirea.cofi.services.BasketService;
 import ru.mirea.cofi.services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,6 +33,9 @@ public class BasketController {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    CafeRepository cafeRepository;
+
     @RequestMapping(
             value = "/basket_info",
             method = RequestMethod.GET
@@ -40,12 +43,15 @@ public class BasketController {
     public ResponseEntity<InfoDto> getInfo(){
         InfoDto infoDto = new InfoDto();
 
-        infoDto.setPaths(
-                List.of(
-                        new PathDto("/",""),
-                        new PathDto("/","")
-                )
-        );
+        ArrayList<PathDto> pathDtos = new ArrayList<>();
+        pathDtos.add(new PathDto("/", "d"));
+        pathDtos.add(new PathDto("/", "d"));
+        pathDtos.add(new PathDto("/", "d"));
+        for (Cafe cafe : cafeRepository.findAll()){
+            pathDtos.add(new PathDto("/basket/order?id_cafe="+cafe.getId(), "Заказать товары из корзины в кофейню по адресу " + cafe.getAdress()));
+        }
+
+        infoDto.setPaths(pathDtos);
 
         return ResponseEntity.ok(infoDto);
     }
@@ -107,7 +113,29 @@ public class BasketController {
         return ResponseEntity.ok(basketService.deleteItem(currentUser, item));
     }
 
+    @RequestMapping(
+            value = "basket/order",
+            method = RequestMethod.GET
+    )
+    public ResponseEntity<OrderDto> order(@RequestParam long id_cafe){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        User currentUser = userService.findByEmail(currentUserName).orElseThrow(
+                () -> {throw new MyNotFoundException("User not found");}
+        );
 
+        OrderDto orderDto = new OrderDto();
+
+        if(basketService.hasBasket(currentUser)){
+            orderDto = basketService.order(currentUser, id_cafe);
+            if(orderDto == null){
+                orderDto.setUser(currentUser.getEmail());
+                orderDto.setAdress("Заказ не был создан");
+            }
+        }
+
+        return ResponseEntity.ok(orderDto);
+    }
 
 
 }
