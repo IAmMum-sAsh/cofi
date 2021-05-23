@@ -29,6 +29,10 @@ public class OrderDto {
     /**
      * The Adress.
      */
+    protected int totalCost;
+    /**
+     * The Adress.
+     */
     protected String adress;
     /**
      * The Status.

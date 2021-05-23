@@ -29,6 +29,10 @@ public class Order extends BaseEntity{
     /**
      * The Adress.
      */
+    protected int totalCost;
+    /**
+     * The Adress.
+     */
     protected String adress;
     /**
      * The Status.

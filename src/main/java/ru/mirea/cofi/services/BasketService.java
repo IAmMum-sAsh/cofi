@@ -160,9 +160,11 @@ public class BasketService {
             );
         }
 
+        int totalCost = 0;
         ArrayList<ItemDto> items = new ArrayList<>();
         for(Item item : order.getItems()){
             items.add(new ItemDto(item.getId(), item.getTitle(), item.getCost()));
+            totalCost += item.getCost();
         }
 
         order.setAdress(cafeRepository.findById(id).orElseThrow(
@@ -170,13 +172,14 @@ public class BasketService {
                 ).getAdress()
         );
 
+        order.setTotalCost(totalCost);
         order.setStatus("Создан");
 
         //System.out.println(order);
         if( orderRepository.save(order) != null){
             basket.setItems(new ArrayList<>());
             basketRepository.save(basket);
-            return new OrderDto(order.getId(), order.getUser().getEmail(), items, order.getAdress(), order.getStatus());
+            return new OrderDto(order.getId(), order.getUser().getEmail(), items, order.getTotalCost(), order.getAdress(), order.getStatus());
         }
 
         return null;

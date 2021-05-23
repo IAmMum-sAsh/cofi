@@ -43,10 +43,12 @@ public class OrderController {
         for(Order order : orders){
             List<Item> items = order.getItems();
             List<ItemDto> itemDtos = new ArrayList<>();
+            int totalCost = 0;
             for(Item item : items){
                 itemDtos.add(new ItemDto(item.getId(), item.getTitle(), item.getCost()));
+                totalCost += item.getCost();
             }
-            orderDtos.add(new OrderDto(order.getId(), order.getUser().getEmail(), itemDtos, order.getAdress(), order.getStatus()));
+            orderDtos.add(new OrderDto(order.getId(), order.getUser().getEmail(), itemDtos, order.getTotalCost(), order.getAdress(), order.getStatus()));
         }
         return ResponseEntity.ok(orderDtos);
     }
@@ -65,9 +67,11 @@ public class OrderController {
         Order order = orderService.setOrderStatus(statusDtoPayload.getId(), statusDtoPayload.getStatus());
         List<Item> items = order.getItems();
         List<ItemDto> itemDtos = new ArrayList<>();
+        int totalCost = 0;
         for(Item item : items){
             itemDtos.add(new ItemDto(item.getId(), item.getTitle(), item.getCost()));
+            totalCost += item.getCost();
         }
-        return ResponseEntity.ok(new OrderDto(order.getId(), order.getUser().getEmail(), itemDtos, order.getAdress(), order.getStatus()));
+        return ResponseEntity.ok(new OrderDto(order.getId(), order.getUser().getEmail(), itemDtos, order.getTotalCost(), order.getAdress(), order.getStatus()));
     }
 }

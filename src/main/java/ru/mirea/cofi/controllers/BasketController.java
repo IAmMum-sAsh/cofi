@@ -172,6 +172,7 @@ public class BasketController {
             orderDto = basketService.order(currentUser, id_cafe);
             if(orderDto == null){
                 orderDto.setUserName(currentUser.getEmail());
+                orderDto.setTotalCost(0);
                 orderDto.setAdress("-");
                 orderDto.setStatus("Заказ не был создан");
             }
