@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mirea.cofi.dto.*;
 import ru.mirea.cofi.entitys.Cafe;
 import ru.mirea.cofi.entitys.Item;
@@ -67,7 +64,7 @@ public class BasketController {
         pathDtos.add(new PathDto("/", "d"));
         pathDtos.add(new PathDto("/", "d"));
         for (Cafe cafe : cafeRepository.findAll()){
-            pathDtos.add(new PathDto("/basket/order?id_cafe="+cafe.getId(), "Заказать товары из корзины в кофейню по адресу " + cafe.getAdress()));
+            pathDtos.add(new PathDto("/basket/order/"+cafe.getId(), "Заказать товары из корзины в кофейню по адресу " + cafe.getAdress()));
         }
 
         infoDto.setPaths(pathDtos);
@@ -104,10 +101,10 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/basket/add_item",
+            value = "/basket/add_item/{id}",
             method = RequestMethod.GET
     )
-    public ResponseEntity<BasketDto> addItemToBasket(@RequestParam long id){
+    public ResponseEntity<BasketDto> addItemToBasket(@PathVariable long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         User currentUser = userService.findByEmail(currentUserName).orElseThrow(
@@ -132,10 +129,10 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "basket/delete_item",
+            value = "basket/delete_item/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity<BasketDto> deleteItemFromBasket(@RequestParam long id){
+    public ResponseEntity<BasketDto> deleteItemFromBasket(@PathVariable long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         User currentUser = userService.findByEmail(currentUserName).orElseThrow(
@@ -156,10 +153,10 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "basket/order",
+            value = "basket/order/{id_cafe}",
             method = RequestMethod.GET
     )
-    public ResponseEntity<OrderDto> order(@RequestParam long id_cafe){
+    public ResponseEntity<OrderDto> order(@PathVariable long id_cafe){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         User currentUser = userService.findByEmail(currentUserName).orElseThrow(

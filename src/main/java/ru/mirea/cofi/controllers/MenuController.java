@@ -57,7 +57,7 @@ public class MenuController {
         infoDto.setPaths(
                 List.of(
                         new PathDto("/menu/","Посмотреть список всех товаров."),
-                        new PathDto("/menu/item?id=2121","Посмотреть полную информацию о конкретном товаре с id=2121.")
+                        new PathDto("/menu/item/2121","Посмотреть полную информацию о конкретном товаре с id=2121.")
                 )
         );
 
@@ -71,10 +71,10 @@ public class MenuController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/item",
+            value = "/item/{id}",
             method = RequestMethod.GET
     )
-    public ResponseEntity<Item> getItem(@RequestParam long id){
+    public ResponseEntity<Item> getItem(@PathVariable long id){
         Item item = itemRepository.findById(id).orElseThrow(
                 () -> {throw new MyNotFoundException("Товар не найден");}
         );
@@ -105,10 +105,10 @@ public class MenuController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "delete_item",
+            value = "delete_item/{id}",
             method = RequestMethod.DELETE
     )
-    public ResponseEntity<Item> deleteItem(@RequestParam long id){
+    public ResponseEntity<Item> deleteItem(@PathVariable long id){
         Item item = itemRepository.findById(id).orElseThrow(
                 () -> new MyNotFoundException("Item not found")
         );
