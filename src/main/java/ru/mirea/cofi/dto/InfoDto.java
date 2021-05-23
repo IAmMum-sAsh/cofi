@@ -6,10 +6,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * The type Info dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class InfoDto {
+    /**
+     * The Paths.
+     */
     protected List<PathDto> paths;
 
 }

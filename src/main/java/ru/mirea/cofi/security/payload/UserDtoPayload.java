@@ -16,9 +16,9 @@ public class UserDtoPayload extends BasicPayload{
     /**
      * Instantiates a new User dto payload.
      *
-     * @param email               the email
-     * @param password            the password
-     * @param role                the role
+     * @param email    the email
+     * @param password the password
+     * @param role     the role
      */
     public UserDtoPayload(String email, String password, String role) {
 

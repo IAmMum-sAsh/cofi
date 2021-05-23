@@ -21,20 +21,40 @@ import ru.mirea.cofi.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Basket controller.
+ */
 @RestController
 public class BasketController {
+    /**
+     * The User service.
+     */
     @Autowired
     UserService userService;
 
+    /**
+     * The Basket service.
+     */
     @Autowired
     BasketService basketService;
 
+    /**
+     * The Item repository.
+     */
     @Autowired
     ItemRepository itemRepository;
 
+    /**
+     * The Cafe repository.
+     */
     @Autowired
     CafeRepository cafeRepository;
 
+    /**
+     * Get info response entity.
+     *
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/basket_info",
             method = RequestMethod.GET
@@ -55,6 +75,11 @@ public class BasketController {
         return ResponseEntity.ok(infoDto);
     }
 
+    /**
+     * Get basket response entity.
+     *
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/basket",
             method = RequestMethod.GET
@@ -72,6 +97,12 @@ public class BasketController {
         return ResponseEntity.ok(basketService.getBasketByUser(currentUser));
     }
 
+    /**
+     * Add item to basket response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/basket/add_item",
             method = RequestMethod.GET
@@ -94,6 +125,12 @@ public class BasketController {
         return ResponseEntity.ok(basketService.addItem(currentUser, item));
     }
 
+    /**
+     * Delete item from basket response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(
             value = "basket/delete_item",
             method = RequestMethod.DELETE
@@ -112,6 +149,12 @@ public class BasketController {
         return ResponseEntity.ok(basketService.deleteItem(currentUser, item));
     }
 
+    /**
+     * Order response entity.
+     *
+     * @param id_cafe the id cafe
+     * @return the response entity
+     */
     @RequestMapping(
             value = "basket/order",
             method = RequestMethod.GET
@@ -128,8 +171,9 @@ public class BasketController {
         if(basketService.hasBasket(currentUser)){
             orderDto = basketService.order(currentUser, id_cafe);
             if(orderDto == null){
-                orderDto.setUser(currentUser.getEmail());
-                orderDto.setAdress("Заказ не был создан");
+                orderDto.setUserName(currentUser.getEmail());
+                orderDto.setAdress("-");
+                orderDto.setStatus("Заказ не был создан");
             }
         }
 

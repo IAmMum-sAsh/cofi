@@ -7,7 +7,16 @@ import ru.mirea.cofi.entitys.User;
 
 import java.util.Optional;
 
+/**
+ * The interface Basket repository.
+ */
 @Repository
 public interface BasketRepository extends JpaRepository<Basket, Long> {
+    /**
+     * Find by user optional.
+     *
+     * @param user the user
+     * @return the optional
+     */
     Optional<Basket> findByUser(User user);
 }

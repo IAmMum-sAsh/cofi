@@ -15,20 +15,41 @@ import ru.mirea.cofi.repositories.OrderRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Basket service.
+ */
 @Service
 public class BasketService {
+    /**
+     * The Basket repository.
+     */
     @Autowired
     BasketRepository basketRepository;
 
+    /**
+     * The Cafe repository.
+     */
     @Autowired
     CafeRepository cafeRepository;
 
+    /**
+     * The Order repository.
+     */
     @Autowired
     OrderRepository orderRepository;
 
+    /**
+     * The Item repository.
+     */
     @Autowired
     ItemRepository itemRepository;
 
+    /**
+     * Get basket by user basket dto.
+     *
+     * @param user the user
+     * @return the basket dto
+     */
     public BasketDto getBasketByUser(User user){
         Basket usersBasket = basketRepository.findByUser(user).orElseThrow(
                 () -> new MyNotFoundException("Basket not found")
@@ -41,10 +62,22 @@ public class BasketService {
         return new BasketDto(items);
     }
 
+    /**
+     * Has basket boolean.
+     *
+     * @param user the user
+     * @return the boolean
+     */
     public boolean hasBasket(User user){
         return !(basketRepository.findByUser(user).isEmpty());
     }
 
+    /**
+     * Create basket basket dto.
+     *
+     * @param user the user
+     * @return the basket dto
+     */
     public BasketDto createBasket(User user) {
         Basket basket = new Basket();
         basket.setUser(user);
@@ -55,6 +88,13 @@ public class BasketService {
         return new BasketDto(new ArrayList<ItemDto>());
     }
 
+    /**
+     * Add item basket dto.
+     *
+     * @param user    the user
+     * @param newItem the new item
+     * @return the basket dto
+     */
     public BasketDto addItem(User user, Item newItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
                 () -> new MyNotFoundException("Basket not found")
@@ -70,6 +110,13 @@ public class BasketService {
         return new BasketDto(items);
     }
 
+    /**
+     * Delete item basket dto.
+     *
+     * @param user        the user
+     * @param deletedItem the deleted item
+     * @return the basket dto
+     */
     public BasketDto deleteItem(User user, Item deletedItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
                 () -> new MyNotFoundException("Basket not found")
@@ -88,6 +135,13 @@ public class BasketService {
         return new BasketDto(items);
     }
 
+    /**
+     * Order order dto.
+     *
+     * @param user the user
+     * @param id   the id
+     * @return the order dto
+     */
     public OrderDto order(User user, long id){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
                 () -> new MyNotFoundException("Basket not found")
@@ -116,11 +170,13 @@ public class BasketService {
                 ).getAdress()
         );
 
+        order.setStatus("Создан");
+
         //System.out.println(order);
         if( orderRepository.save(order) != null){
             basket.setItems(new ArrayList<>());
             basketRepository.save(basket);
-            return new OrderDto(order.getUser().getEmail(), items, order.getAdress());
+            return new OrderDto(order.getId(), order.getUser().getEmail(), items, order.getAdress(), order.getStatus());
         }
 
         return null;

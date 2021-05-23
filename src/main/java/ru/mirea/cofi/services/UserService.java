@@ -71,8 +71,10 @@ public class UserService {
     }
 
     /**
-     * Register new sailor user.
+     * Register new user user.
      *
+     * @param userDtoPayload the user dto payload
+     * @param role           the role
      * @return the user
      */
     public User registerNewUser(UserDtoPayload userDtoPayload, String role) {

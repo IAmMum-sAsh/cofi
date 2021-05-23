@@ -24,8 +24,9 @@ public class UserSignupController {
     UserService userService;
 
     /**
-     * Signup new seller response entity.
+     * Signup new user response entity.
      *
+     * @param userDtoPayload the user dto payload
      * @return the response entity
      */
     @PostMapping("/user")
@@ -37,6 +38,12 @@ public class UserSignupController {
         return ResponseEntity.ok(registeredUser);
     }
 
+    /**
+     * Signup new manager response entity.
+     *
+     * @param userDtoPayload the user dto payload
+     * @return the response entity
+     */
     @PostMapping("/manager")
     public ResponseEntity<User> signupNewManager(@RequestBody UserDtoPayload userDtoPayload) {
         if (userService.findByEmail(userDtoPayload.getEmail()).isPresent())

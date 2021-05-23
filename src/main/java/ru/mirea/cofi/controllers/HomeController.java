@@ -9,8 +9,16 @@ import ru.mirea.cofi.dto.PathDto;
 
 import java.util.List;
 
+/**
+ * The type Home controller.
+ */
 @RestController
 public class HomeController {
+    /**
+     * Get info response entity.
+     *
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/home",
             method = RequestMethod.GET
