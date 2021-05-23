@@ -69,4 +69,16 @@ public class MenuController {
 
         return ResponseEntity.ok(item);
     }
+
+    @RequestMapping(
+            value = "delete_item",
+            method = RequestMethod.DELETE
+    )
+    public ResponseEntity<Item> deleteItem(@RequestParam long id){
+        Item item = itemRepository.findById(id).orElseThrow(
+                () -> new MyNotFoundException("Item not found")
+        );
+        itemRepository.delete(item);
+        return ResponseEntity.ok(item);
+    }
 }
