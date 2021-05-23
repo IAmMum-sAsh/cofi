@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.mirea.cofi.dto.*;
-import ru.mirea.cofi.entitys.Basket;
 import ru.mirea.cofi.entitys.Cafe;
 import ru.mirea.cofi.entitys.Item;
 import ru.mirea.cofi.entitys.User;
