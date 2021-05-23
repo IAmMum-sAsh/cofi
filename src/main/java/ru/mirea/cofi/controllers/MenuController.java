@@ -13,12 +13,23 @@ import ru.mirea.cofi.repositories.ItemRepository;
 
 import java.util.List;
 
+/**
+ * The type Menu controller.
+ */
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
+    /**
+     * The Item repository.
+     */
     @Autowired
     ItemRepository itemRepository;
 
+    /**
+     * Get menu response entity.
+     *
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/",
             method = RequestMethod.GET
@@ -31,6 +42,11 @@ public class MenuController {
         return ResponseEntity.ok(menuItemDto);
     }
 
+    /**
+     * Get info response entity.
+     *
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/info",
             method = RequestMethod.GET
@@ -48,6 +64,12 @@ public class MenuController {
         return ResponseEntity.ok(infoDto);
     }
 
+    /**
+     * Get item response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/item",
             method = RequestMethod.GET
@@ -59,6 +81,12 @@ public class MenuController {
         return ResponseEntity.ok(item);
     }
 
+    /**
+     * Add item response entity.
+     *
+     * @param itemDtoPayload the item dto payload
+     * @return the response entity
+     */
     @RequestMapping(
             value = "/add_item",
             method = RequestMethod.POST
@@ -70,6 +98,12 @@ public class MenuController {
         return ResponseEntity.ok(item);
     }
 
+    /**
+     * Delete item response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @RequestMapping(
             value = "delete_item",
             method = RequestMethod.DELETE
