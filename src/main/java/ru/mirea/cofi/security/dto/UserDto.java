@@ -10,6 +10,7 @@ import ru.mirea.cofi.entitys.User;
 @Data
 @NoArgsConstructor
 public class UserDto {
+    private long id;
     private String email;
     private String role;
 
@@ -19,6 +20,7 @@ public class UserDto {
      * @param user the user
      */
     public UserDto(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.role = user.getRole();
     }

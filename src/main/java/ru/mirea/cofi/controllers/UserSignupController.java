@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.mirea.cofi.entitys.User;
+import ru.mirea.cofi.security.dto.UserDto;
 import ru.mirea.cofi.security.exeption.ConflictException;
 import ru.mirea.cofi.security.payload.UserDtoPayload;
 import ru.mirea.cofi.services.UserService;
@@ -30,12 +31,13 @@ public class UserSignupController {
      * @return the response entity
      */
     @PostMapping("/user")
-    public ResponseEntity<User> signupNewUser(@RequestBody UserDtoPayload userDtoPayload) {
+    public ResponseEntity<UserDto> signupNewUser(@RequestBody UserDtoPayload userDtoPayload) {
         if (userService.findByEmail(userDtoPayload.getEmail()).isPresent())
             throw new ConflictException();
 
         User registeredUser = userService.registerNewUser(userDtoPayload, "ROLE_USER");
-        return ResponseEntity.ok(registeredUser);
+
+        return ResponseEntity.ok(new UserDto(registeredUser));
     }
 
     /**
@@ -45,12 +47,12 @@ public class UserSignupController {
      * @return the response entity
      */
     @PostMapping("/manager")
-    public ResponseEntity<User> signupNewManager(@RequestBody UserDtoPayload userDtoPayload) {
+    public ResponseEntity<UserDto> signupNewManager(@RequestBody UserDtoPayload userDtoPayload) {
         if (userService.findByEmail(userDtoPayload.getEmail()).isPresent())
             throw new ConflictException();
 
         User registeredUser = userService.registerNewUser(userDtoPayload, "ROLE_MANAGER");
-        return ResponseEntity.ok(registeredUser);
+        return ResponseEntity.ok(new UserDto(registeredUser));
     }
 
 }
