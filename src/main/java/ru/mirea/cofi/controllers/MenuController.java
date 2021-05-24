@@ -31,7 +31,7 @@ public class MenuController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/",
+            value = "",
             method = RequestMethod.GET
     )
     public ResponseEntity<MenuItemDto> getMenu(){

@@ -1,7 +1,5 @@
 package ru.mirea.cofi.controllers;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +19,7 @@ import ru.mirea.cofi.services.UserService;
  * The type Authentication controller.
  */
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
     @Autowired

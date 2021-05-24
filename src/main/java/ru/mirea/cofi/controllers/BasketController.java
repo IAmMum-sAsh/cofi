@@ -22,6 +22,7 @@ import java.util.List;
  * The type Basket controller.
  */
 @RestController
+@RequestMapping("/basket")
 public class BasketController {
     /**
      * The User service.
@@ -53,7 +54,7 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/basket_info",
+            value = "/info",
             method = RequestMethod.GET
     )
     public ResponseEntity<InfoDto> getInfo(){
@@ -78,7 +79,7 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/basket",
+            value = "",
             method = RequestMethod.GET
     )
     public ResponseEntity<BasketDto> getBasket(){
@@ -101,7 +102,7 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "/basket/add_item/{id}",
+            value = "/add_item/{id}",
             method = RequestMethod.GET
     )
     public ResponseEntity<BasketDto> addItemToBasket(@PathVariable long id){
@@ -129,7 +130,7 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "basket/delete_item/{id}",
+            value = "/delete_item/{id}",
             method = RequestMethod.DELETE
     )
     public ResponseEntity<BasketDto> deleteItemFromBasket(@PathVariable long id){
@@ -153,7 +154,7 @@ public class BasketController {
      * @return the response entity
      */
     @RequestMapping(
-            value = "basket/order/{id_cafe}",
+            value = "/order/{id_cafe}",
             method = RequestMethod.GET
     )
     public ResponseEntity<OrderDto> order(@PathVariable long id_cafe){

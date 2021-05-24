@@ -15,7 +15,7 @@ import ru.mirea.cofi.services.UserService;
  * The type User signup controller.
  */
 @Controller
-@RequestMapping("/api/signup")
+@RequestMapping("/signup")
 public class UserSignupController {
     /**
      * The User service.
