@@ -104,7 +104,7 @@ public class JwtTokenProvider {
         UUID randUUID = UUID.randomUUID();
 
         String createdToken = Jwts.builder()
-                .setSubject(String.valueOf(randUUID)) //TODO: записывать не в subject, а в id токена
+                .setSubject(String.valueOf(randUUID))
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, secret)
