@@ -61,9 +61,9 @@ public class BasketController {
         InfoDto infoDto = new InfoDto();
 
         ArrayList<PathDto> pathDtos = new ArrayList<>();
-        pathDtos.add(new PathDto("/", "d"));
-        pathDtos.add(new PathDto("/", "d"));
-        pathDtos.add(new PathDto("/", "d"));
+        pathDtos.add(new PathDto("/basket", "Посмотреть товары, находящиеся в корзине"));
+        pathDtos.add(new PathDto("/basket/add_item/1", "Добавить в корзину товар с id=1"));
+        pathDtos.add(new PathDto("/basket/delete_item/1", "Удалить из корзины товар с id=1"));
         for (Cafe cafe : cafeRepository.findAll()){
             pathDtos.add(new PathDto("/basket/order/"+cafe.getId(), "Заказать товары из корзины в кофейню по адресу " + cafe.getAdress()));
         }

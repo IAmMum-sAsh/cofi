@@ -44,4 +44,16 @@ public class OrderService {
         orderRepository.save(order);
         return order;
     }
+
+    /**
+     * Get order order.
+     *
+     * @param id the id
+     * @return the order
+     */
+    public Order getOrder(long id){
+        return orderRepository.findById(id).orElseThrow(
+                () -> new MyNotFoundException("Order not found")
+        );
+    }
 }

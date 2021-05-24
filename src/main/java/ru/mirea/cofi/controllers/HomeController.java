@@ -28,8 +28,11 @@ public class HomeController {
 
         infoDto.setPaths(
                 List.of(
-                        new PathDto("/menu/info","Перейти в меню. Получить список товаров."),
-                        new PathDto("/basket","Перейти в корзину. Посмотреть список выбранных товаров.")
+                        new PathDto("/menu/info","Посмотреть информацию о меню и работе с ним"),
+                        new PathDto("/basket/info","Посмотреть информацию о корзине и работе с ней"),
+                        new PathDto("/auth/login", "Войти в учётную запись для получения возможности пользоваться полным функционалом сервиса"),
+                        new PathDto("/auth/refresh", "Актуализировать права доступа"),
+                        new PathDto("/signup/user", "Зарегистрироваться")
                 )
         );
 
