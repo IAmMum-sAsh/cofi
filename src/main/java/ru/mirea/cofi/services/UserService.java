@@ -73,7 +73,7 @@ public class UserService {
     /**
      * Зарегистрировать нового пользователя
      *
-     * @param userDtoPayload dto нового пользователя
+     * @param userDtoPayload dto нового пользователя в формате (String email, String password, String role)
      * @param role           роль нового пользователя
      * @return сущность-пользователь
      */
