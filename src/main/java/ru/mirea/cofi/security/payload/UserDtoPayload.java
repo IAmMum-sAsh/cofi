@@ -21,7 +21,6 @@ public class UserDtoPayload extends BasicPayload{
      * @param role     the role
      */
     public UserDtoPayload(String email, String password, String role) {
-
         this.email = email;
         this.password = password;
         this.role = role;

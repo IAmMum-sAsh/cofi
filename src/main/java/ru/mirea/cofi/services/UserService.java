@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * The type User service.
+ * Класс-сервис пользователей
  */
 @Service
 @Slf4j
@@ -31,7 +31,7 @@ public class UserService {
     public BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
-     * Password encoder b crypt password encoder.
+     * Давайте это говно мы тестировать не будем
      *
      * @return the b crypt password encoder
      */
@@ -43,10 +43,10 @@ public class UserService {
 
 
     /**
-     * Find by id optional.
+     * Найти пользователя по id
      *
-     * @param userId the user id
-     * @return the optional
+     * @param userId id пользователя
+     * @return optional сущность-пользователь
      */
     public Optional<User> findById(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -57,10 +57,10 @@ public class UserService {
     }
 
     /**
-     * Find by email optional.
+     * Найти пользователя по email
      *
-     * @param email the email
-     * @return the optional
+     * @param email email пользователя
+     * @return optional сущность-пользователь
      */
     public Optional<User> findByEmail(String email) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -71,74 +71,24 @@ public class UserService {
     }
 
     /**
-     * Register new user user.
+     * Зарегистрировать нового пользователя
      *
-     * @param userDtoPayload the user dto payload
-     * @param role           the role
-     * @return the user
+     * @param userDtoPayload dto нового пользователя
+     * @param role           роль нового пользователя
+     * @return сущность-пользователь
      */
     public User registerNewUser(UserDtoPayload userDtoPayload, String role) {
-
-        //TODO: проверить мрабатоспособность такого метода.
         User user = new User();
 
         user.setEmail(userDtoPayload.getEmail());
         user.setRole(role);
-
-        //user.setActivationCode(UUID.randomUUID().toString());
-        //user.setCreatedActivationCode(LocalDateTime.now());
 
         String encodedPassword = bCryptPasswordEncoder.encode(userDtoPayload.getPassword());
         user.setPassword(encodedPassword);
 
         userRepository.save(user);
 
-
         return user;
     }
-
-
-
-
-//    public Curator registerNewCurator(CuratorDto curatorDto) {
-//        Curator user = new Curator();
-//        user.setUsername(curatorDto.getUsername());
-//        user.setEmail(curatorDto.getEmail());
-//        user.setFirstName(curatorDto.getFirstName());
-//        user.setLastName(curatorDto.getLastName());
-//        user.setPhoneNumber(curatorDto.getPhoneNumber());
-//        user.setSecondName(curatorDto.getSecondName());
-//        user.setRole(roleRepository.findByName("ROLE_CURATOR").orElseThrow(() -> { throw new NoSuchElementException("No such role found.");}));
-//
-//        user.setActivationCode(UUID.randomUUID().toString());
-//        user.setCreatedActivationCode(LocalDateTime.now());
-//
-//        String encodedPassword = bCryptPasswordEncoder.encode(curatorDto.getPassword());
-//        user.setPassword(encodedPassword);
-//
-//        user.setNameCompany(curatorDto.getNameCompany());
-//
-//        User registeredUser = curatorRepository.save(user);
-//        log.info("Registered new curator: " + registeredUser.toString());
-//
-//        mailService.send(user.getEmail(), "Активация аккаунта.", mailService.compareRegistrationEmail(user.getSecondName(),
-//                user.getLastName(), "куратора", user.getActivationCode()));
-//
-//        return user;
-//    }
-
-
-//    public void activateUser(String encodedUserActivationCode) {
-//
-//        User activatedUser = userRepository.findByActivationCode(encodedUserActivationCode).orElseThrow(
-//                                    () -> {
-//                                        throw new NotFoundException();
-//                                    }
-//                                );
-//
-//        activatedUser.setActivationCode(null);
-//
-//        userRepository.save(activatedUser);
-//    }
 
 }

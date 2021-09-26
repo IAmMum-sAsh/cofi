@@ -16,39 +16,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Basket service.
+ * Класс-сервис корзины пользователя
  */
 @Service
 public class BasketService {
     /**
-     * The Basket repository.
+     * Репозиторий корзины
      */
     @Autowired
     BasketRepository basketRepository;
 
     /**
-     * The Cafe repository.
+     * Репозиторий кафе
      */
     @Autowired
     CafeRepository cafeRepository;
 
     /**
-     * The Order repository.
+     * Репозиторий заказов
      */
     @Autowired
     OrderRepository orderRepository;
 
     /**
-     * The Item repository.
+     * Репозиторий товаров
      */
     @Autowired
     ItemRepository itemRepository;
 
     /**
-     * Get basket by user basket dto.
+     * Получить dto корзины по пользователю
      *
-     * @param user the user
-     * @return the basket dto
+     * @param user Сущность-пользователь
+     * @return dto корзины
      */
     public BasketDto getBasketByUser(User user){
         Basket usersBasket = basketRepository.findByUser(user).orElseThrow(
@@ -63,20 +63,20 @@ public class BasketService {
     }
 
     /**
-     * Has basket boolean.
+     * Проверить наличие корзины у пользователя
      *
-     * @param user the user
-     * @return the boolean
+     * @param user Сущность-пользователь
+     * @return логическое значение результата
      */
     public boolean hasBasket(User user){
         return !(basketRepository.findByUser(user).isEmpty());
     }
 
     /**
-     * Create basket basket dto.
+     * Создать корзинупользователя
      *
-     * @param user the user
-     * @return the basket dto
+     * @param user Сущность-пользователь
+     * @return dto созданной корзины
      */
     public BasketDto createBasket(User user) {
         Basket basket = new Basket();
@@ -89,11 +89,11 @@ public class BasketService {
     }
 
     /**
-     * Add item basket dto.
+     * Добавить товар в корзину
      *
-     * @param user    the user
-     * @param newItem the new item
-     * @return the basket dto
+     * @param user    Сущность-пользователь
+     * @param newItem Добавляемая сущность-товар
+     * @return обновлённый dto корзины
      */
     public BasketDto addItem(User user, Item newItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
@@ -111,11 +111,11 @@ public class BasketService {
     }
 
     /**
-     * Delete item basket dto.
+     * Удалить товар из корзины
      *
-     * @param user        the user
-     * @param deletedItem the deleted item
-     * @return the basket dto
+     * @param user        Сущность-пользователь
+     * @param deletedItem Удаляемая сущность-товар
+     * @return обновлённый dto корзины
      */
     public BasketDto deleteItem(User user, Item deletedItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
@@ -136,11 +136,11 @@ public class BasketService {
     }
 
     /**
-     * Order order dto.
+     * Создать заказ
      *
-     * @param user the user
-     * @param id   the id
-     * @return the order dto
+     * @param user Сущность-пользователь
+     * @param id   id кофейни
+     * @return dto созданного заказа
      */
     public OrderDto order(User user, long id){
         Basket basket = basketRepository.findByUser(user).orElseThrow(

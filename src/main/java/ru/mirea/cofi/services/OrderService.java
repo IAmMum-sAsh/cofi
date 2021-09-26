@@ -9,31 +9,31 @@ import ru.mirea.cofi.repositories.OrderRepository;
 import java.util.List;
 
 /**
- * The type Order service.
+ * Класс-сервис заказов
  */
 @Service
 public class OrderService {
     /**
-     * The Order repository.
+     * Репозиторий заказов
      */
     @Autowired
     protected OrderRepository orderRepository;
 
     /**
-     * Get orders list.
+     * Получить все заказы
      *
-     * @return the list
+     * @return список всех заказов
      */
     public List<Order> getOrders(){
         return orderRepository.findAll();
     }
 
     /**
-     * Set order status order.
+     * Установка статуса заказу
      *
-     * @param id     the id
-     * @param status the status
-     * @return the order
+     * @param id     id заказа
+     * @param status устанавливаемый статус
+     * @return обновлённая информация о заказе
      */
     public Order setOrderStatus(long id, String status){
         Order order = orderRepository.findById(id).orElseThrow(
@@ -46,10 +46,10 @@ public class OrderService {
     }
 
     /**
-     * Get order order.
+     * Получить информацию о конкретном заказе
      *
-     * @param id the id
-     * @return the order
+     * @param id id заказа
+     * @return информация о заказе
      */
     public Order getOrder(long id){
         return orderRepository.findById(id).orElseThrow(
