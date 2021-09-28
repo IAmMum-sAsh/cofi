@@ -45,6 +45,8 @@ public class UserService {
     /**
      * Найти пользователя по id
      *
+     * Производится обращение к базе userRepository.findById(userId).
+     *
      * @param userId id пользователя
      * @return optional сущность-пользователь
      */
@@ -59,6 +61,8 @@ public class UserService {
     /**
      * Найти пользователя по email
      *
+     * Производится обращение к базе userRepository.findByEmail(email).
+     *
      * @param email email пользователя
      * @return optional сущность-пользователь
      */
@@ -72,6 +76,8 @@ public class UserService {
 
     /**
      * Зарегистрировать нового пользователя
+     *
+     * Полученные данные преобразуются в хранимый формат и происходит сохранение пользователя userRepository.save(user).
      *
      * @param userDtoPayload dto нового пользователя в формате (String email, String password, String role)
      * @param role           роль нового пользователя

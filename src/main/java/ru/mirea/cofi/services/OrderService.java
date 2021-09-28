@@ -22,6 +22,8 @@ public class OrderService {
     /**
      * Получить все заказы
      *
+     * Выполняется запрос orderRepository.findAll().
+     *
      * @return список всех заказов
      */
     public List<Order> getOrders(){
@@ -30,6 +32,8 @@ public class OrderService {
 
     /**
      * Установка статуса заказу
+     *
+     * Извлекается заказ по id orderRepository.findById(id), у него изменяется статус, после чего он сохраняется orderRepository.save(order)
      *
      * @param id     id заказа
      * @param status устанавливаемый статус
@@ -47,6 +51,8 @@ public class OrderService {
 
     /**
      * Получить информацию о конкретном заказе
+     *
+     * Извлекается заказ со всей информацией путём orderRepository.findById(id).
      *
      * @param id id заказа
      * @return информация о заказе

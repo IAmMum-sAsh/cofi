@@ -47,8 +47,10 @@ public class BasketService {
     /**
      * Получить dto корзины по пользователю
      *
+     * Выполняется поиск в базе по пользователю методом basketRepository.findByUser(user), который возвращает объект типа Basket, откуда элементы корзины конвертируются в удобно читаемый вид
+     *
      * @param user Сущность-пользователь
-     * @return dto корзины
+     * @return BasketDto корзины
      */
     public BasketDto getBasketByUser(User user){
         Basket usersBasket = basketRepository.findByUser(user).orElseThrow(
@@ -65,6 +67,8 @@ public class BasketService {
     /**
      * Проверить наличие корзины у пользователя
      *
+     * Возвращает boolean значение после запроса к базе basketRepository.findByUser(user).isEmpty()
+     *
      * @param user Сущность-пользователь
      * @return логическое значение результата
      */
@@ -75,8 +79,10 @@ public class BasketService {
     /**
      * Создать корзинупользователя
      *
+     * Создаёт новую корзину и привязывает её к пользователю, потом созраняет путём basketRepository.save(basket). Возвращает пустой BasketDto созданной корзины
+     *
      * @param user Сущность-пользователь
-     * @return dto созданной корзины
+     * @return пустой BasketDto созданной корзины
      */
     public BasketDto createBasket(User user) {
         Basket basket = new Basket();
@@ -91,9 +97,11 @@ public class BasketService {
     /**
      * Добавить товар в корзину
      *
+     *Извлекается корзина пользователя путём запроса basketRepository.findByUser(user), туда добавляется новый элемент, и корзина созраняется basketRepository.save(basket). В виде ответа предоставляется BasketDto с новым содержимым корзины пользователя.
+     *
      * @param user    Сущность-пользователь
      * @param newItem Добавляемая сущность-товар
-     * @return обновлённый dto корзины
+     * @return обновлённый BasketDto корзины
      */
     public BasketDto addItem(User user, Item newItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
@@ -113,9 +121,11 @@ public class BasketService {
     /**
      * Удалить товар из корзины
      *
+     * Извлекается корзина пользователя путём запроса basketRepository.findByUser(user), оттуда удаляется запрашиваемый элемент [если он там существует, иначе ничего не происходит], и корзина созраняется basketRepository.save(basket). В виде ответа предоставляется BasketDto с новым содержимым корзины пользователя.
+     *
      * @param user        Сущность-пользователь
      * @param deletedItem Удаляемая сущность-товар
-     * @return обновлённый dto корзины
+     * @return обновлённый BasketDto корзины
      */
     public BasketDto deleteItem(User user, Item deletedItem){
         Basket basket = basketRepository.findByUser(user).orElseThrow(
@@ -137,6 +147,9 @@ public class BasketService {
 
     /**
      * Создать заказ
+     *
+     * Извлекается корзина пользователя путём запроса basketRepository.findByUser(user), далее пообъектово происходит перекладывание объектов из корзины в объект типа Order с запросами в базу itemRepository.findById(itemToOrder.getId()). Далее за заказом закрепляется кофейня,идентифициоуемая по id cafeRepository.findById(id).
+     * Затем заказ сохраняется orderRepository.save(order). И в случае успеха корзина пользователя обнуляется, заполняется пустым массивом и сохраняется basketRepository.save(basket).
      *
      * @param user Сущность-пользователь
      * @param id   id кофейни
